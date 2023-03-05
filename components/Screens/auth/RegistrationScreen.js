@@ -8,7 +8,7 @@ const image = require('../../../assets/images/PhotoBG.png')
 
 // SplashScreen.preventAutoHideAsync();
 
-export default function RegistarationScreen() {
+export default function RegistarationScreen({navigation}) {
     const [login, setLogin] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -99,7 +99,7 @@ export default function RegistarationScreen() {
                                         onPress={onSubmit}>
                                     <Text style={styles.btnText}>Register</Text>
                                 </TouchableOpacity>
-                                <Text style={styles.login}>Are you have an account? Login</Text> 
+                                <Text style={styles.login} onPress={() => navigation.navigate('Login')}>Are you have an account? Login</Text> 
                             </>}
                         </View>
                     </KeyboardAvoidingView>

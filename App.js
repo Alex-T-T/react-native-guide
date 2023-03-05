@@ -1,21 +1,17 @@
 // import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
-import  RegistarationScreen  from './components/Screens/auth/RegistrationScreen';
+import  {RegistrationScreen, LoginScreen}  from './components/Screens/auth';
 import { useState, useCallback, useEffect } from 'react';
-// import * as Font from 'expo-font';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // const image = require('./assets/images/PhotoBG.png')
 
 SplashScreen.preventAutoHideAsync();
 
-// const initialState = {
-//     login: '',
-//     email: '',
-//     password: '',
-// }
-
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   // const [isShowKeyboard, setIsShowKeyboard] = useState(false);
@@ -66,9 +62,20 @@ export default function App() {
     return null;
   }
 // =====================================================
+  // return (
+  //   <View style={{flex: 1}}  onLayout={onLayoutRootView}>
+  //     {/* <RegistrationScreen /> */}
+  //     <LoginScreen/>
+  //   </View>
+  // );
+
   return (
-    <View style={{flex: 1}}  onLayout={onLayoutRootView}>
-      <RegistarationScreen />
-    </View>
-  );
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Registration">
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Registration" component={RegistrationScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+
 }

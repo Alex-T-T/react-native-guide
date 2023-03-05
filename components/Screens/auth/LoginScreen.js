@@ -1,54 +1,115 @@
-import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useState, useRef } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import {ImageBackground, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+const image = require('../../../assets/images/PhotoBG.png')
 
-export default function LoginScreen() {
-    const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+export default function LoginScreen({navigation}) {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [isFocusedEmail, setIsFocusedEmail] = useState(false)
+    const [isFocusedPassword, setIsFocusedPassword] = useState(false)
+    const [isShowKeyboard, setIsShowKeyboard] = useState(false)
+
+    const emailRef = useRef()
+    const passRef = useRef()
+
+    const keyboardHide = () => {
+        setIsShowKeyboard(false);
+        Keyboard.dismiss();
+    }
+
+    const onSubmit = (e) => {
+        e.preventDefault()
+        console.log("login =>", login);
+        if (email.length === 0 || password.length === 0) {
+            alert('Check your registration info')
+            return 
+        }
+        setEmail('')
+        setPassword('')
+        keyboardHide()
+    }
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <View style={{...styles.form, paddingBottom: isShowKeyboard ? 0 : 78}}>
-                <Text style={styles.title}> Login </Text>
-                <View>
-                    <TextInput style={styles.input}
-                        placeholder='Email'
-                        onFocus={()=> setIsShowKeyboard(true)}
-                    />
-                </View>
-                <View>
-                    <TextInput style={styles.input}
-                        secureTextEntry={true}
-                        placeholder='Password'
-                        onFocus={()=> setIsShowKeyboard(true)
-                        }
-                    />
-                </View>
-                <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={styles.btn}
-                    onPress={()=> setIsShowKeyboard(false)}>
-                    <Text style={styles.btnText}>Login</Text>
-                </TouchableOpacity>
-                <Text style={styles.register}>Are you haven't an account? Register</Text>
-
+        <TouchableWithoutFeedback onPress={keyboardHide}>
+            <View style={styles.container}>
+                <ImageBackground style={styles.bgdImage} source={image}>
+                    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                        <View style={{...styles.form, paddingBottom: isShowKeyboard ? 32 : 144}}>
+                            <Text style={styles.title}> Sign In </Text>
+                            <View>
+                                <TextInput style={{...styles.input, borderColor: isFocusedEmail ? '#FF6C00' : '#E8E8E8'}}
+                                    placeholder='Email'
+                                    value={email}
+                                    onFocus={() => {
+                                        setIsShowKeyboard(true)
+                                        setIsFocusedEmail(true)
+                                        }}
+                                    onBlur={() => setIsFocusedEmail(false)}
+                                    onChangeText={(value) => setEmail(value)}
+                                    returnKeyType="next"
+                                    onSubmitEditing={() => passRef.current.focus()} 
+                                    ref={emailRef}
+                                />
+                            </View>
+                            <View>
+                                <TextInput style={{...styles.input, borderColor: isFocusedPassword ? '#FF6C00' : '#E8E8E8'}}
+                                    secureTextEntry={true}
+                                    placeholder='Password'
+                                    value={password}
+                                    onFocus={() => {
+                                        setIsShowKeyboard(true)
+                                        setIsFocusedPassword(true)
+                                        }}
+                                    onBlur={() => setIsFocusedPassword(false)}
+                                    onChangeText={(value) => setPassword(value)}
+                                    onSubmitEditing={onSubmit} 
+                                    ref={passRef}
+                                />
+                            </View>
+                            {!isShowKeyboard && 
+                            <>
+                                <TouchableOpacity
+                                        activeOpacity={0.8}
+                                        style={styles.btn}
+                                        onPress={onSubmit}>
+                                    <Text style={styles.btnText}>Sign In</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.registerText} onPress={() => navigation.navigate('Registration')}>Are you not register yet? Registration</Text> 
+                            </>}
+                        </View>
+                    </KeyboardAvoidingView>
+                    <StatusBar style="auto" />
+                </ImageBackground>
             </View>
-        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        fontFamily: 'Roboto-Regular',
+    },
+
+    bgdImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'flex-end',
+    },
+
     form: {
         backgroundColor: '#FFFFFF',
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        paddingTop: 92,
+        paddingTop: 32,
     },
 
     title: {
         color: '#212121',
-        // fontFamily: 'Roboto',
-        fontStyle: 'normal',
-        // fontWeight: 500,
+        fontFamily: 'Roboto-Medium',
         fontSize: 30,
         lineHeight: 35,
         textAlign: 'center',
@@ -62,6 +123,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#E8E8E8', 
         borderRadius: 8,
+        fontFamily: 'Roboto-Regular',
+        fontSize: 16,
+
+    },
+    focused: {
+        borderColor: '#FF6C00',
     },
 
     btn: {
@@ -74,25 +141,16 @@ const styles = StyleSheet.create({
 
     btnText: {
         textAlign: 'center',
-        
-        // fontFamily: 'Roboto',
-        fontStyle: 'normal',
-        // fontWeight: 400,
+        fontFamily: 'Roboto-Regular',
         fontSize: 16,
         lineHeight: 19,
     },
 
-    register: {
+    registerText: {
         textAlign: 'center',
         color: '#1B4371',
-        // fontFamily: 'Roboto',
-        fontStyle: 'normal',
-        // fontWeight: 400,
+        fontFamily: 'Roboto-Regular',
         fontSize: 16,
         lineHeight: 19,
-
     }
-
-
-
 });
