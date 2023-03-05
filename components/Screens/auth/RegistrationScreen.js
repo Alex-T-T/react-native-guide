@@ -44,7 +44,7 @@ export default function RegistarationScreen({navigation}) {
             <View style={styles.container}>
                 <ImageBackground style={styles.bgdImage} source={image}>
                     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                        <View style={{...styles.form, paddingBottom: isShowKeyboard ? 32 : 78}}>
+                        <View style={{...styles.form, marginBottom: isShowKeyboard ? 32 : 0}}>
                             <Text style={styles.title}> Registration </Text>
                             <View>
                                 <TextInput style={{...styles.input, borderColor: isFocusedLogin ? '#FF6C00' : '#E8E8E8'}}
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         paddingTop: 92,
+        paddingBottom: 78,
     },
 
     title: {

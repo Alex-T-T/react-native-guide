@@ -21,9 +21,9 @@ export default function LoginScreen({navigation}) {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        console.log("login =>", login);
+        console.log("login =>", login)
         if (email.length === 0 || password.length === 0) {
-            alert('Check your registration info')
+            alert('Check your login info')
             return 
         }
         setEmail('')
@@ -36,7 +36,7 @@ export default function LoginScreen({navigation}) {
             <View style={styles.container}>
                 <ImageBackground style={styles.bgdImage} source={image}>
                     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                        <View style={{...styles.form, paddingBottom: isShowKeyboard ? 32 : 144}}>
+                        <View style={{...styles.form, marginBottom: isShowKeyboard ? 32 : 0}}>
                             <Text style={styles.title}> Sign In </Text>
                             <View>
                                 <TextInput style={{...styles.input, borderColor: isFocusedEmail ? '#FF6C00' : '#E8E8E8'}}
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         paddingTop: 32,
+        paddingBottom: 144,
     },
 
     title: {

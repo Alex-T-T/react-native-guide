@@ -71,9 +71,15 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Registration">
+      <Stack.Navigator initialRouteName="Registration" onLayout={onLayoutRootView}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Registration" component={RegistrationScreen} />
+        {/* <Stack.Screen name="Posts" component={PostsScreen} />
+        <Stack.Screen name="CreatePosts" component={CreatePostsScreen} />
+        <Stack.Screen name="Comments" component={CommentsScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Map" component={MapScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )
